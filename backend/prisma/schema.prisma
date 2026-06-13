@@ -21,8 +21,105 @@ model User {
   @@map("users")
 }
 
+model Color {
+  id       String    @id @default(uuid())
+  name     String
+  code     String
+  products Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("colors")
+}
+
+model Product {
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+  price       Float
+
+  is_trending Boolean      @default(false)
+  is_organic  Boolean      @default(false)
+  is_new      Boolean      @default(true)
+  size        Product_Size
+  colors      Color[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  looks     Look[]
+
+  @@map("products")
+}
+
+model Season {
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+
+  lookBooks LookBook[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("seasons")
+}
+
+model LookBook {
+  id       String @id @default(uuid())
+  title    String
+  seasonId String
+  season   Season @relation(fields: [seasonId], references: [id])
+
+  gallery Gallery?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("lookbooks")
+}
+
+model Gallery {
+  id String @id @default(uuid())
+
+  lookbookId String   @unique
+  lookbook   LookBook @relation(fields: [lookbookId], references: [id])
+
+  looks Look[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("galleries")
+}
+
+model Look {
+  id    String @id @default(uuid())
+  image String
+
+  galleryId String
+  gallery   Gallery @relation(fields: [galleryId], references: [id])
+
+  products Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("looks")
+}
+
 // Enums
 enum Role {
   USER
   ADMIN
+}
+
+enum Product_Size {
+  XS
+  S
+  M
+  L
+  XL
+  XXL
+  XXXL
 }
