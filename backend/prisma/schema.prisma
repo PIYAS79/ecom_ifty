@@ -9,12 +9,14 @@ datasource db {
 // Entities 
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
-  photo     String?
-  role      Role     @default(USER)
+  id       String      @id @default(uuid())
+  name     String
+  email    String      @unique
+  password String
+  image    String?
+  role     Role        @default(USER)
+  status   User_Status @default(ACTIVE)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -34,10 +36,11 @@ model Color {
 }
 
 model Product {
-  id          String  @id @default(uuid())
+  id          String   @id @default(uuid())
   name        String
   description String?
   price       Float
+  images      String[]
 
   is_trending Boolean      @default(false)
   is_organic  Boolean      @default(false)
@@ -112,6 +115,12 @@ model Look {
 enum Role {
   USER
   ADMIN
+  SUPERADMIN
+}
+
+enum User_Status {
+  ACTIVE
+  BLOCKED
 }
 
 enum Product_Size {

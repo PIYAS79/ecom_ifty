@@ -1,0 +1,3 @@
+"Store *","Product Type *","Merchant Order ID","Recipient Name *","Recipient Phone *","Recipient Address *","Recipient City *","Recipient Zone *","Recipient Area","Amount To Collect *","Weight *","Quantity *","Close Box","Item description","Special instruction"
+"Test","Parcel","hello-12","alex","1701010101","tb gate mohakhali","Dhaka","Mohakhali","Khawaja Tower","100","0.5","1","1","Sample product description here","Handle with care"
+"Test2","Book","Order-123","Rakibul Hasan","1812345678","45 Park Avenue, Apt 302","Jamalpur","Jamalpur Sadar","kendua","1000","5","2","0","Another sample product description","Call before delivery"
