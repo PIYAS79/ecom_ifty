@@ -11,13 +11,13 @@ import type { JwtPayload } from "jsonwebtoken";
 
 
 const user_login = async (data: Login_Type) => {
-    const user_data = await prisma.user.findUnique({
+    const user_data = await prisma.user.findFirst({
         where: {
             email: data.email,
             status: User_Status.ACTIVE
         }
     })
-    if(!user_data){
+    if (!user_data) {
         throw new Final_App_Error(httpStatus.NOT_FOUND, "User Not Found!")
     }
     const is_pass_match = await bcrypt.compare(data.password, user_data.password);
@@ -28,7 +28,6 @@ const user_login = async (data: Login_Type) => {
         email: user_data.email,
         role: user_data.role
     }, config.jwt.access_token_secret as string, config.jwt.access_token_expires_in as any)
-
     const refresh_token = JWT_Helper.generate_token({
         email: user_data.email,
         role: user_data.role
@@ -91,7 +90,7 @@ const forget_password = async (email: string) => {
             email: email
         }
     })
-    if(!user_data){
+    if (!user_data) {
         throw new Final_App_Error(httpStatus.NOT_FOUND, "Email Not Found!")
     }
     const forgot_token = JWT_Helper.generate_token({

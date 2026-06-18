@@ -24,15 +24,38 @@ model User {
 }
 
 model Color {
-  id       String    @id @default(uuid())
-  name     String
-  code     String
-  products Product[]
+  id   String @id @default(uuid())
+  name String
+  code String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  product   Product? @relation(fields: [productId], references: [id])
+  productId String?
+
+  @@map("colors")
+}
+
+model Product_Type {
+  id   String @id @default(uuid())
+  name String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+
+  @@map("product_types")
+}
+
+model Coupon {
+  id       String @id @default(uuid())
+  code     String @unique
+  discount Float
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("colors")
+  @@map("coupons")
 }
 
 model Product {
@@ -40,17 +63,26 @@ model Product {
   name        String
   description String?
   price       Float
+  price_off   Float?
   images      String[]
 
-  is_trending Boolean      @default(false)
-  is_organic  Boolean      @default(false)
-  is_new      Boolean      @default(true)
-  size        Product_Size
-  colors      Color[]
+  is_featured      Boolean @default(false)
+  is_new           Boolean @default(true)
+  is_best_selling  Boolean @default(false)
+  is_free_shipping Boolean @default(false)
+  in_stock         Boolean @default(true)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  looks     Look[]
+  size     Product_Size
+  category Product_Category
+  colors   Color[]
+  type_id  String
+  type     Product_Type     @relation(fields: [type_id], references: [id])
+
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  looks          Look[]
+  order_stack_id String
+  orderStack     Order_Stack? @relation(fields: [order_stack_id], references: [id])
 
   @@map("products")
 }
@@ -111,6 +143,50 @@ model Look {
   @@map("looks")
 }
 
+model Order_Stack {
+  id           String    @id @default(uuid())
+  user_name    String
+  user_phone   String
+  user_address String
+  total_price  Float
+  products     Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("order_stacks")
+}
+
+model Recorded_Product {
+  id String @id @default(uuid())
+
+  product_name     String
+  product_price    Float
+  product_quantity Int
+
+  order_record_id String
+  orderRecord     Order_Record? @relation(fields: [order_record_id], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("recorded_products")
+}
+
+model Order_Record {
+  id           String             @id @default(uuid())
+  user_name    String
+  user_phone   String
+  user_address String
+  total_price  Float
+  products     Recorded_Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("order_records")
+}
+
 // Enums
 enum Role {
   USER
@@ -131,4 +207,10 @@ enum Product_Size {
   XL
   XXL
   XXXL
+}
+
+enum Product_Category {
+  MEN
+  WOMEN
+  GOODS
 }

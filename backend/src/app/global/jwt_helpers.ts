@@ -1,5 +1,4 @@
-import jwt, { SignOptions, type JwtPayload, type Secret } from "jsonwebtoken";
-import type { StringValue } from "ms";
+import jwt, { type JwtPayload, type Secret } from "jsonwebtoken";
 
 
 type Payload_Type = {
@@ -8,14 +7,14 @@ type Payload_Type = {
 }
 
 
-const generate_token = (payload: Payload_Type, secret: Secret, expiresIn: number | StringValue) => {
+const generate_token = (payload: Payload_Type, secret: Secret, expiresIn: string) => {
     return jwt.sign(payload, secret, {
         algorithm: "HS256",
-        expiresIn,
-    });
-};
+        expiresIn
+    })
+}
 
-const verify_token = (token: string, secret: Secret) => {
+const verify_token = (token:string,secret:Secret) =>{
     return jwt.verify(token, secret) as JwtPayload;
 }
 

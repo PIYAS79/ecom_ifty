@@ -2,6 +2,8 @@ import express from 'express';
 import { User_Routes } from '../modules/USER/user.route';
 import { Auth_Routes } from '../modules/AUTH/auth.route';
 import { Product_Routes } from '../modules/PRODUCT/product.route';
+import { Color_Routes } from '../modules/COLOR/color.route';
+import { Product_Type_Routes } from '../modules/PRD_TYPE/product_type.route';
 
 
 const router = express.Router();
@@ -16,7 +18,15 @@ const final_routes = [
         route: Auth_Routes
     },
     {
-        path:'/product',
+        path: '/color',
+        route: Color_Routes
+    },
+    {
+        path: '/type',
+        route: Product_Type_Routes
+    },
+    {
+        path: '/product',
         route: Product_Routes
     }
 ]
