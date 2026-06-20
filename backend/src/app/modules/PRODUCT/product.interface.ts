@@ -47,3 +47,4 @@ export type Create_Product_Type = {
     color_ids: string[]
     type_id: string
 }
+

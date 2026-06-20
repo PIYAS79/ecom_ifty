@@ -21,7 +21,12 @@ const Create_Product_Zod_Type = z.object({
     })
 })
 
+const Update_Product_Zod_Type = z.object({
+  body: Create_Product_Zod_Type.shape.body.partial(),
+});
+
 
 export const Product_Zod_Types = {
-    Create_Product_Zod_Type
+    Create_Product_Zod_Type,
+    Update_Product_Zod_Type
 };

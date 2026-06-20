@@ -72,6 +72,7 @@ model Product {
   is_best_selling  Boolean @default(false)
   is_free_shipping Boolean @default(false)
   in_stock         Boolean @default(true)
+  is_deleted       Boolean @default(false)
 
   size     Product_Size
   category Product_Category

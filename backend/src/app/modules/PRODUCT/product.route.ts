@@ -14,5 +14,24 @@ router.post('/',
     Zod_Validation_Request(Product_Zod_Types.Create_Product_Zod_Type),
     Product_Controllers.create_product);
 
+// Update a product by ID
+router.put('/:id',
+    Check_Roles(Role.SUPERADMIN),
+    Zod_Validation_Request(Product_Zod_Types.Update_Product_Zod_Type),
+    Product_Controllers.update_product);
+
+// Delete a product by ID
+router.delete('/:id',
+    Check_Roles(Role.SUPERADMIN),
+    Product_Controllers.delete_product);
+
+// Get all products
+router.get('/',
+    Product_Controllers.get_all_products,);
+
+
+// Get a product by ID
+router.get('/:id',
+    Product_Controllers.get_product_by_id, );
 
 export const Product_Routes = router;
