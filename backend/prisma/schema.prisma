@@ -30,8 +30,8 @@ model Color {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  product   Product? @relation(fields: [productId], references: [id])
   productId String?
+  product   Product? @relation(fields: [productId], references: [id])
 
   @@map("colors")
 }
@@ -64,6 +64,7 @@ model Product {
   description String?
   price       Float
   price_off   Float?
+  percent_off Float?
   images      String[]
 
   is_featured      Boolean @default(false)
@@ -81,7 +82,7 @@ model Product {
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   looks          Look[]
-  order_stack_id String
+  order_stack_id String?
   orderStack     Order_Stack? @relation(fields: [order_stack_id], references: [id])
 
   @@map("products")

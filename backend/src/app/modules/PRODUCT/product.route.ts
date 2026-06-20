@@ -9,7 +9,7 @@ import { Product_Zod_Types } from './product.zod';
 const router = express.Router();
 
 // Create a new product
-router.post('/create',
+router.post('/',
     Check_Roles(Role.SUPERADMIN),
     Zod_Validation_Request(Product_Zod_Types.Create_Product_Zod_Type),
     Product_Controllers.create_product);
