@@ -5,6 +5,10 @@ import { Product_Routes } from '../modules/PRODUCT/product.route';
 import { Color_Routes } from '../modules/COLOR/color.route';
 import { Product_Type_Routes } from '../modules/PRD_TYPE/product_type.route';
 import { Coupon_Routes } from '../modules/COUPON/coupon.route';
+import { Season_Routes } from '../modules/SEASON/season.route';
+import { LookBook_Routes } from '../modules/LOOKBOOK/lookbook.route';
+import { Look_Routes } from '../modules/LOOK/look.route';
+import { Gallery_Routes } from '../modules/GALLERY/gallery.route';
 
 
 const router = express.Router();
@@ -33,6 +37,22 @@ const final_routes = [
     {
         path: '/product',
         route: Product_Routes
+    },
+    {
+        path: '/season',
+        route: Season_Routes
+    },
+    {
+        path: '/lookbook',
+        route: LookBook_Routes
+    },
+    {
+        path: '/look',
+        route: Look_Routes
+    },
+    {
+        path: '/gallery',
+        route: Gallery_Routes
     }
 ]
 

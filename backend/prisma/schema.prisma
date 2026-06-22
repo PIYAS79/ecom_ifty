@@ -94,10 +94,9 @@ model Season {
   name        String
   description String?
 
-  lookBooks LookBook[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  lookBook  LookBook?
 
   @@map("seasons")
 }
@@ -105,7 +104,8 @@ model Season {
 model LookBook {
   id       String @id @default(uuid())
   title    String
-  seasonId String
+  seasonId String @unique
+  banner   String?
   season   Season @relation(fields: [seasonId], references: [id])
 
   gallery Gallery?
