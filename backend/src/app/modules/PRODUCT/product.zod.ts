@@ -14,7 +14,7 @@ const Create_Product_Zod_Type = z.object({
         is_best_selling: z.boolean().optional(),
         is_free_shipping: z.boolean().optional(),
         in_stock: z.boolean().optional(),
-        size: z.nativeEnum(Product_Size),
+        sizes: z.array(z.nativeEnum(Product_Size)),
         category: z.nativeEnum(Product_Category),
         color_ids: z.array(z.string()),
         type_id: z.string()

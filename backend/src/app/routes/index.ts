@@ -9,6 +9,7 @@ import { Season_Routes } from '../modules/SEASON/season.route';
 import { LookBook_Routes } from '../modules/LOOKBOOK/lookbook.route';
 import { Look_Routes } from '../modules/LOOK/look.route';
 import { Gallery_Routes } from '../modules/GALLERY/gallery.route';
+import { Order_Routes } from '../modules/ORDER/order.route';
 
 
 const router = express.Router();
@@ -53,6 +54,10 @@ const final_routes = [
     {
         path: '/gallery',
         route: Gallery_Routes
+    },
+    {
+        path: '/order',
+        route: Order_Routes
     }
 ]
 

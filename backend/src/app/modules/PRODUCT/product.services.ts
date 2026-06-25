@@ -11,7 +11,7 @@ const create_product = async (data: Create_Product_Type) => {
         name: data.name,
         price: data.price,
         images: data.images,
-        size: data.size,
+        sizes: data.sizes,
         category: data.category,
         type: {
             connect: {

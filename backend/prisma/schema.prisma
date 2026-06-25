@@ -74,17 +74,16 @@ model Product {
   in_stock         Boolean @default(true)
   is_deleted       Boolean @default(false)
 
-  size     Product_Size
+  sizes     Product_Size[]
   category Product_Category
   colors   Color[]
   type_id  String
   type     Product_Type     @relation(fields: [type_id], references: [id])
 
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-  looks          Look[]
-  order_stack_id String?
-  orderStack     Order_Stack? @relation(fields: [order_stack_id], references: [id])
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  looks           Look[]
+  orderedProducts Ordered_Product[]
 
   @@map("products")
 }
@@ -102,11 +101,11 @@ model Season {
 }
 
 model LookBook {
-  id       String @id @default(uuid())
+  id       String  @id @default(uuid())
   title    String
-  seasonId String @unique
+  seasonId String  @unique
   banner   String?
-  season   Season @relation(fields: [seasonId], references: [id])
+  season   Season  @relation(fields: [seasonId], references: [id])
 
   gallery Gallery?
 
@@ -145,13 +144,31 @@ model Look {
   @@map("looks")
 }
 
+model Ordered_Product {
+  id         String       @id @default(uuid())
+  product_id String
+  product    Product      @relation(fields: [product_id], references: [id])
+  quantity   Int
+  color_name String
+  size       Product_Size
+
+  order_StackId String?
+  orderStack    Order_Stack? @relation(fields: [order_StackId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("ordered_products")
+}
+
 model Order_Stack {
-  id           String    @id @default(uuid())
+  id           String            @id @default(uuid())
   user_name    String
   user_phone   String
   user_address String
+  products     Ordered_Product[]
   total_price  Float
-  products     Product[]
+  status       Order_Status      @default(PENDING)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -159,29 +176,14 @@ model Order_Stack {
   @@map("order_stacks")
 }
 
-model Recorded_Product {
-  id String @id @default(uuid())
-
-  product_name     String
-  product_price    Float
-  product_quantity Int
-
-  order_record_id String
-  orderRecord     Order_Record? @relation(fields: [order_record_id], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("recorded_products")
-}
-
 model Order_Record {
-  id           String             @id @default(uuid())
-  user_name    String
-  user_phone   String
-  user_address String
-  total_price  Float
-  products     Recorded_Product[]
+  id                          String       @id @default(uuid())
+  user_name                   String
+  user_phone                  String
+  user_address                String
+  products_x_quantity_x_color String[]
+  total_price                 Float
+  status                      Order_Status
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -215,4 +217,11 @@ enum Product_Category {
   MEN
   WOMEN
   GOODS
+}
+
+enum Order_Status {
+  PENDING
+  ACCEPTED
+  DELIVERED
+  CANCELED
 }
