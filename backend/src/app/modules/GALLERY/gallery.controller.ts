@@ -34,9 +34,20 @@ const get_gallery_by_lookbookId = Async_Catch(async (req: Request, res: Response
     });
 })
 
+const delete_gallery = Async_Catch(async (req: Request, res: Response) => {
+    const { gid: galleryId } = req.params;
+    const result = await Gallery_Services.delete_gallery(galleryId as string);
+    res.status(http_status.OK).json({
+        status: 'success',
+        message: 'Gallery deleted successfully',
+        data: result,
+    });
+})
+
 
 export const Gallery_Controller = {
     create_gallery,
     update_gallery,
-    get_gallery_by_lookbookId
+    get_gallery_by_lookbookId,
+    delete_gallery
 }

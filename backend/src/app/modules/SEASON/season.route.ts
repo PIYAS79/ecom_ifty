@@ -24,4 +24,10 @@ router.patch("/:id",
     Zod_Validation_Request(Season_Zod_Types.Update_Season_Zod_Type),
     Season_Controller.update_season);
 
+// delete a season
+router.delete("/:id",
+    Check_Roles(Role.SUPERADMIN),
+    Season_Controller.delete_season);
+
+
 export const Season_Routes = router;

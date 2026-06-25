@@ -25,4 +25,10 @@ router.get("/",
     LookBook_Controller.get_all_lookbooks);
 
 
+// Delete a lookbook
+router.delete("/:lid",
+    Check_Roles(Role.SUPERADMIN),
+    LookBook_Controller.delete_lookbook);
+
+
 export const LookBook_Routes = router;

@@ -32,9 +32,21 @@ const update_season = Async_Catch(async (req: Request, res: Response) => {
     });
 })
 
+const delete_season = Async_Catch(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const result = await Season_Services.delete_season(id as string);
+    res.status(http_status.OK).json({
+        status: 'success',
+        message: 'Season deleted successfully',
+        data: result,
+    });
+})
+
+
 
 export const Season_Controller = {
     create_season,
     get_all_seasons,
-    update_season
+    update_season,
+    delete_season
 }

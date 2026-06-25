@@ -71,11 +71,33 @@ const get_gallery_by_lookbookId = async (lookbookId: string) => {
     return gallery;
 }
 
+const delete_gallery = async (galleryId: string) => {
+    const gallery = await prisma.gallery.findUnique({
+        where: { id: galleryId }
+    })
+    if (!gallery) {
+        throw new Final_App_Error(http_status.NOT_FOUND, "Gallery not found");
+    }
+
+    const res = await prisma.$transaction(async (tc) => {
+        const deleted_looks = await tc.look.deleteMany({
+            where: { galleryId }
+        })
+        const deleted_gallery = await tc.gallery.delete({
+            where: { id: galleryId }
+        })
+        return { deleted_looks, deleted_gallery }
+    })
+
+    return res;
+
+}
 
 
 
 export const Gallery_Services = {
     create_gallery,
     update_gallery,
-    get_gallery_by_lookbookId
+    get_gallery_by_lookbookId,
+    delete_gallery
 }

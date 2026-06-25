@@ -32,9 +32,20 @@ const get_all_lookbooks = Async_Catch(async (req: Request, res: Response) => {
     });
 })
 
+const delete_lookbook = Async_Catch(async (req: Request, res: Response) => {
+    const { lid: lookbookId } = req.params;
+    const result = await LookBook_Services.delete_lookbook(lookbookId as string);
+    res.status(http_status.OK).json({
+        status: 'success',
+        message: 'LookBook deleted successfully',
+        data: result,
+    });
+})
+
 
 export const LookBook_Controller = {
     create_lookbook,
     update_lookbook,
-    get_all_lookbooks
+    get_all_lookbooks,
+    delete_lookbook
 }

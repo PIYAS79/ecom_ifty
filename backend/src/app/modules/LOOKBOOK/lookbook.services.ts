@@ -60,9 +60,57 @@ const get_all_lookbooks = async () => {
     return result;
 }
 
+const delete_lookbook = async (lookbookId: string) => {
+    const lookbook = await prisma.lookBook.findUnique({
+        where: { id: lookbookId },
+        include: {
+            gallery: {
+                include: {
+                    looks: true
+                },
+            },
+        }
+    })
+    if (!lookbook) {
+        throw new Final_App_Error(http_status.NOT_FOUND, 'LookBook not found');
+    }
+    const lookbookIds = lookbook.gallery?.looks?.map(one => one.id) || [];
+    const result = await prisma.$transaction(async (tc) => {
+        // delete looks
+        if (lookbookIds.length > 0) {
+            await tc.look.deleteMany({
+                where: {
+                    id: {
+                        in: lookbookIds
+                    }
+                }
+            })
+        }
+        // delete gallery 
+        if (lookbook.gallery?.id) {
+            await tc.gallery.delete({
+                where: {
+                    id: lookbook.gallery?.id as string
+                }
+            })
+        }
+        // delete lookbook
+        const res = await tc.lookBook.delete({
+            where: {
+                id: lookbook.id
+            }
+        })
+        return res;
+    })
+    return result;
+}
+
+
+
 
 export const LookBook_Services = {
     create_lookbook,
     update_lookbook,
-    get_all_lookbooks
+    get_all_lookbooks,
+    delete_lookbook
 }

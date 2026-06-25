@@ -27,6 +27,9 @@ router.put("/:gid",
 router.get("/:lookbookId",
     Gallery_Controller.get_gallery_by_lookbookId);
 
-
+// Delete a gallery
+router.delete("/:gid",
+    Check_Roles(Role.SUPERADMIN),
+    Gallery_Controller.delete_gallery);
 
 export const Gallery_Routes = router;
